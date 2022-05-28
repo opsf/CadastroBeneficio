@@ -45,11 +45,16 @@ with con:
 
 """
 
-def exluir_info(name):
+"""
+Tentei excluir com duas condições na qual uma delas é a data mas não consegui. Com uma está funcionando tranquilamente
+Mas troquei a condição data e coloquei a condição  operacao e deu certo
+"""
+#lista = ['Elizabete Maria', 'Suspensão']
+def exluir_info(lista):
     with con:
         cur = con.cursor()
-        query = '''DELETE FROM cadastroBeneficio WHERE nome = ?'''
-        cur.execute(query, name)
+        query = '''DELETE FROM cadastroBeneficio WHERE nome = ? AND operacao = ?'''
+        cur.execute(query, lista)
 
-
-
+#exluir_info(lista)
+#print(mostrar_info())

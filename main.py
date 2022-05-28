@@ -52,14 +52,26 @@ def excluir():
                         Para obtermos de 'ffff' o valor ["fffff"]  basta fazer o seguinte: d = [c]
                         O valor de d será ["fffff"].                        
                         Pronto. Agora temos o valor para colocarmos como parametro para a função de exclusão que está no banco de dados
+                        PRECISO AUMENTAR O PARAMETRO DE EXLUSÃO DO BANCO DE DADOS PORQUE DO JETO ACIMA FALADO IRÁ EXLUIR TODOS OS REGISTROS
+                        QUE COMEÇAREM COM O NOME. VOU COLOCAR A DATA COMO ARGUMENTO
                         
     """
-    c = b[0]
-    d = [c]
+    c = [b[0],b[3]]
 
-    exluir_info(d) # irá excluir do banco de dados o item selecionado do treeview
+    exluir_info(c) # irá excluir do banco de dados o item selecionado do treeview
 
 
+def suspender():
+    global tree
+    a = tree.focus()
+    b = tree.item(a, "values") # b será uma tupla, só que queremos mudar somente a operacao. A tupla não pode ser mudada então teremos que converter para lista
+    c = list(b) # a lista pode ser mudada e nós vamos mudar o ultimo elemento para Suspensão
+    c.insert(3,'Suspensão') # inserindo Suspensão na posição 3
+    c.pop()  # exluindo a ultima posição
+    inserir_info(c)  # insere o focus no banco de dados
+    tree.insert("", 'end', values=c)  # insere a mudança em uma nova arvore  no treeview
+    print(c)
+    # AINDA TENHO QUE TROCAR A DATA PARA A DATA ATUAL
 
 
 
@@ -140,7 +152,7 @@ b_excluir = Button(frame_baixo, text= 'Excluir', command=excluir,  font=('Helvet
 b_excluir.place(x=65, y=340)
 
 ## Botao suspender##
-b_suspender = Button(frame_baixo, text= 'Suspender', font=('Helvetica', '12'), bg=co6, fg=co1)
+b_suspender = Button(frame_baixo, text= 'Suspender', command=suspender, font=('Helvetica', '12'), bg=co6, fg=co1)
 b_suspender.place(x=127, y=340)
 
 ## Botao atualizar##
