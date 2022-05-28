@@ -21,6 +21,53 @@ janela.geometry('1137x453')
 janela.configure(background=co9)
 janela.resizable(width=FALSE, height=FALSE)
 
+def incluir():
+
+    global tree
+
+    nome = e_nome.get()
+    beneficio = combo_beneficio.get()
+    data = e_cal.get()
+    operacao = combo_operacao.get()
+
+    lista = [nome, beneficio,data,operacao]
+
+    inserir_info(lista) #insere o cadastro no banco de dados
+
+    tree.insert("", 'end', values=lista)  # insere o cadastro no treeview
+
+def excluir():
+    global tree
+    a = tree.focus() # coloca o elemento da árvore treeviw focado na variável a. São vários os elementos mas queremos só os valores
+    b = tree.item(a, "values") # extrai somente os values (aquilo que é visível no treeview)
+    tree.delete(a)  # exlui o elemento selecionado da árvore. No entanto temos que exluir do banco de dados
+    """ 
+                         Para exluir do banco de dados  temos ver como está cadastrado
+                        O cadastro no banco de dados é igual a varável b acima. No banco de dados vamos exluir pelo nome(vide BancoDados.py)
+                        O nome é o primeiro item da variável b.
+                        Então vamos selecioná-lo usando o método islaice e atribuindo o valor a variável c: c = b[0].                         
+                         O valor de c será 'fffff'. No entanto eu preciso que seja ['fffff'] com aspas e entre colchetes.
+                        Preciso de  ["fffff"] porque no meu banco de dados eu o configurei para receber o valor dessa forma
+                        Conforme acima 'ffff' está atribuído à variável c. 
+                        Para obtermos de 'ffff' o valor ["fffff"]  basta fazer o seguinte: d = [c]
+                        O valor de d será ["fffff"].                        
+                        Pronto. Agora temos o valor para colocarmos como parametro para a função de exclusão que está no banco de dados
+                        
+    """
+    c = b[0]
+    d = [c]
+
+    exluir_info(d) # irá excluir do banco de dados o item selecionado do treeview
+
+
+
+
+
+
+
+
+
+
 ################### Dividindo a janela principal ######################
 
 frame_cima = Frame(janela, width=310, height=50, background=co2, relief='flat')
@@ -85,11 +132,11 @@ combo_operacao.place(x=10, y= 270)
 #######BOTOÕES###########
 
 ## Botao incluir ##
-b_inserir = Button(frame_baixo, text= 'Incluir', font=('Helvetica', '12'), bg=co6, fg=co1 )
+b_inserir = Button(frame_baixo, text= 'Incluir', command=incluir, font=('Helvetica', '12'), bg=co6, fg=co1 )
 b_inserir.place(x=10, y=340)
 
 ## Botao excluir##
-b_excluir = Button(frame_baixo, text= 'Excluir', font=('Helvetica', '12'), bg=co6, fg=co1 )
+b_excluir = Button(frame_baixo, text= 'Excluir', command=excluir,  font=('Helvetica', '12'), bg=co6, fg=co1 )
 b_excluir.place(x=65, y=340)
 
 ## Botao suspender##
@@ -105,11 +152,11 @@ b_atualizar.place(x=220, y=340)
 
 def mostrar():
 
-    df_list = mostrar_info()
+    global tree
+    df_list = mostrar_info() # pega a tabela que está no banco de dados e coloca na variável df_list
 
     head = ["Nome", "Beneficio","Data","Operacao"]
     tree = ttk.Treeview(frame_direita, columns=head, height=20, show='headings')
-
 
 
     tree.heading('#0', text='vazio')
@@ -126,6 +173,8 @@ def mostrar():
     hsb = ttk.Scrollbar(frame_direita, orient='horizontal', command=tree.xview)
 
     """
+        Aqui será mostrado os valores que se encontram no banco de dados. Eles serão puxados para o treeview
+        
        Inserindo no treeviw os valores que estão no banco de dados.
        
        - Antes de tudo é preciso buscar os valores no banco de dados. Busca-se os valores através do SELECT
@@ -141,6 +190,7 @@ def mostrar():
 
     for i in df_list:
         tree.insert("",'end', values=i)
+
 
     tree.grid(column=0, row=0)
     vsb.grid(column=1, row=0)
