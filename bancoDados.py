@@ -1,9 +1,13 @@
 import sqlite3
+import os
+import sys
 
+
+appdir = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
 
 
 # Criando conexão
-con = sqlite3.connect('dados.db')
+con = sqlite3.connect(os.path.join(appdir,'dados.db'))
 
 """
 # criando tabela

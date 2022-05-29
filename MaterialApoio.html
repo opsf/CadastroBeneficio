@@ -103,6 +103,32 @@
 		<li>
 			Instruções de instalação da biblioteca.  <a href="https://pyinstaller.org/en/stable/">   CLIQUE AQUI</a>
 		</li>
+		<li>
+			Entre no prompt do anaconda e vá para o ambiente virtual de seu projeto e fique no diretorio que contém os arquivos de seu projeto
+		</li>
+
+		<li>
+			Após instalada a biblioteca, estando no ambiente virtual digite no diretório de seu projeto: pyinstaller -w your_program.py
+		</li>
+		<li>
+			Será criado o arquivo dist . Basta copia-lo e cola-lo em outro computador
+		</li>
+		<li>PROBLEMA</li>
+		<li>
+			Tive um problema na conversão do arquivo py para executável porque não estava importando tudo que é necessário do tkcalendar, que faz parte do projeto
+		</li>
+		<li>
+			O comando de importação que eu usei foi: pyinstaller --hidden-import babel.numbers myscript.py
+			MESMO USANDO ESSE COMANDO NÃO FUNCIONOU . O JEITO É SUBSTITUIR A BIBLIOTECA TKCALENDAR
+		</li>
+		<li>
+			Subsititui a biblioteca tkcalendar para a biblioteca datetime presente no construtor do python. Mesmo assim continuou dando erro a criação do executável.
+			<p> Só que agora o erro é em relação ao banco de dados. Não consegue encontrar a tabela criada dentro do banco de dados</p>
+		</li>
+		<li>
+			A solução foi copiar o banco de dados do projeto  para dentro da pasta dist . Na pasta dist já havia o banco de dados então eu o substitui pelo banco do projeto.
+			SUCESSO!!!
+		</li>
 	</ul>
 
 	<h1>INICIANDO O PROJETO</h1>

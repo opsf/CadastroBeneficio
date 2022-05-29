@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import ttk
-from tkcalendar import Calendar, DateEntry
+import datetime as dt
 from bancoDados import *
 
 co0 = "#f0f3f5"  # Preta
@@ -21,13 +21,14 @@ janela.geometry('1137x453')
 janela.configure(background=co9)
 janela.resizable(width=FALSE, height=FALSE)
 
+
 def incluir():
 
     global tree
 
     nome = e_nome.get()
     beneficio = combo_beneficio.get()
-    data = e_cal.get()
+    data = e_data.get()
     operacao = combo_operacao.get()
 
     lista = [nome, beneficio,data,operacao]
@@ -71,7 +72,7 @@ def suspender():
     inserir_info(c)  # insere o focus no banco de dados
     tree.insert("", 'end', values=c)  # insere a mudança em uma nova arvore  no treeview
     print(c)
-    # AINDA TENHO QUE TROCAR A DATA PARA A DATA ATUAL
+    # AINDA TENHO QUE TROCAR A DATA PARA A DATA EM QUE FOI REALIZADA A SUSPENSÃO
 
 
 
@@ -129,8 +130,15 @@ combo_beneficio.place(x=10, y= 120)
 l_data = Label(frame_baixo, text= 'Data*', anchor=NW, font=('Helvetica', '12'), bg=co1 )
 l_data.place(x=10, y=170)
 
-e_cal = DateEntry(frame_baixo, width=12)
-e_cal.place(x=10, y= 200)
+
+## Definindo o valor padrão do entry data ##
+
+dataPadrao = StringVar()
+now = dt.datetime.now()
+b = now.strftime("%d/%m/%y")
+dataPadrao.set(b)
+e_data = Entry(frame_baixo, width=12, relief=SOLID, textvariable=dataPadrao )
+e_data.place(x=10, y= 200)
 
 l_operacao = Label(frame_baixo, text= 'Operacao*', anchor=NW, font=('Helvetica', '12'), bg=co1 )
 l_operacao.place(x=10, y=240)
